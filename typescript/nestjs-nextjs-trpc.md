@@ -1,38 +1,132 @@
-# Typescript 프로젝트 시작하기
+# Fullstack TypeScript Monorepo: NestJS, NextJS 13 & tRPC
 
-### NPM 패키지 생성하기
+### pnpm 패키지 생성하기
+pnpm 패키지 설치하기
 ```Bash
-npm init -y
+pnpm init 
+```
+pnpm-workspace.yaml 설정하기  
+- apps 폴더 내에 workspace 환경 구성하기
+```yaml
+packages:
+  - "apps/*"
 ```
 
-### Typescript 환경 설정하기
-Typescript 의존성 설치하기 
+### NestJS 환경 설정하기
+Nest CLI 의존성 설치하기
 ```Bash
-npm i -D typescript
+npm i -g @nestjs/cli
 ```
 
-`tsconfig.json` 파일 생성하기
+Nest 프로젝트 생성하기
 ```Bash
-tsc -init
+nest new server --strict --skip-git --package-manager=pnpm
 ```
 
-`tsconfig.json` 파일에서 환경 설정하기
-```Typescript
+Nestjs config 설정하기
+```Bash
+pnpm add @nestjs/config
+```
+
+### NextJs 환경 설정하기
+Nextjs 의존성 설치하기
+```Bash
+pnpm create-next-app@latest
+```
+
+### MonoRepo 구성하기
+전체 `tsconfig.json` 환경 설정은 다음과 같습니다.
+```json
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2017",
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
     "noImplicitAny": true,
-    "sourceMap": false,
-    "outDir": "./dist"
-  },
-  "exclude": [
-    "node_modules",
-    "**/*.(spec|test).ts"
-  ],
-  "esModuleInterop": true
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@server/*": ["./apps/server/src/*"],
+      "@web/*": ["./apps/web/*"]
+    }
+  }
 }
 ```
+
+server `tsconfig.json` 설정하기
+```Bash
+{
+  "extends": "../../tsconfig.json", // Extend the config options from the root
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist"
+  }
+}
+```
+web `tsconfig.json` 설정하기
+```Bash
+{
+  "extends": "../../tsconfig.json", // Extend the config options from the root,
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+script은 다음과 같습니다.
+```Bash
+"scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build:server": "pnpm --filter server build",
+    "build:web": "pnpm --filter web build",
+    "start:server": "pnpm --filter server start:prod",
+    "start:web": "pnpm --filter web start"
+},
+```
+`apps/server` script 명령어를 변경합니다.
+```Bash
+"scripts": {
+   // ...
+   "start:dev": "nest start --watch",
+   // ...
+},
+```
+`start:dev` script를 `dev`로 변경합니다. 
+```Bash
+"scripts": {
+   // ...
+   "dev": "nest start --watch",
+   // ...
+},
+```
+
+### trpc 환경 설정하기
 
 ### ESLint 환경 설정
 `eslint` 자동 파일 생성하기
@@ -119,7 +213,7 @@ module.exports = {
 ### Jest 환경 설정하기
 Jest 및 swc 컴파일 패키지 설치하기
 ```bash
-npm i -D jest ts-jest @types/jest @swc/core @swc/jest 
+npm i -D jest ts-jest @types/jest @swc/core @swc/jest
 ```
 `jest.config.js` 파일 생성하기
 ```Javascript
