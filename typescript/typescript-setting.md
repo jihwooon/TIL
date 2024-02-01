@@ -163,3 +163,29 @@ module.exports = {
   // ...
 }
 ```
+### vscode 환경 셋팅
+`.vscode` 폴더 내에 `settings.json` 추가하기
+```json
+{
+  // editor 80 ~ 120 사이즈
+  "editor.rulers": [
+    {
+      "column": 80,
+      "color": "#f5870a"
+    },
+    100, // <- a ruler in the default color or as customized (with "editorRuler.foreground") at column 100
+    {
+      "column": 120,
+      "color": "#9f0af5"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit", // 저장 시 eslint 적용 
+    "source.organizeImports": "explicit" // 저장 시 패키지 자동 정리
+  },
+  "editor.formatOnSave": false, // 포맷터 자동 적용 유무
+  "files.trimTrailingWhitespace": true,
+  "editor.insertSpaces": false,
+  "editor.tabSize": 2 // 탭 사이즈 2
+}
+```

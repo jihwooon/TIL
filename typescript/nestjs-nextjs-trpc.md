@@ -110,7 +110,8 @@ script은 다음과 같습니다.
 },
 ```
 `apps/server` script 명령어를 변경합니다.
-```Bash
+
+```sh
 "scripts": {
    // ...
    "start:dev": "nest start --watch",
@@ -118,7 +119,7 @@ script은 다음과 같습니다.
 },
 ```
 `start:dev` script를 `dev`로 변경합니다. 
-```Bash
+```sh
 "scripts": {
    // ...
    "dev": "nest start --watch",
@@ -138,7 +139,7 @@ npx eslint --init
 ```
 
 `.eslintrc.js` 파일을 셋팅하기
-```Javascript
+```js
 module.exports = {
   env: {
     node: true,
@@ -216,7 +217,7 @@ Jest 및 swc 컴파일 패키지 설치하기
 npm i -D jest ts-jest @types/jest @swc/core @swc/jest
 ```
 `jest.config.js` 파일 생성하기
-```Javascript
+```js
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   testEnvironment: 'node',
@@ -247,7 +248,8 @@ module.exports = {
 npm i -D jest-plugin-context @types/jest-plugin-context
 ```
 `jest.config.js`에 context 추가하기
-```Javascript
+
+```js
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   // ...
