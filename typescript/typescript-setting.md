@@ -42,6 +42,10 @@ tsc -init
 ```Bash
 npx eslint --init
 ```
+`eslint airbnb` 패키지 설치하기
+```Bash
+npm i -D eslint-config-airbnb-base eslint-config-airbnb-typescript 
+```
 
 `.eslintrc.js` 파일을 셋팅하기
 ```Javascript
@@ -119,7 +123,7 @@ module.exports = {
 ### Jest 환경 설정하기
 Jest 및 swc 컴파일 패키지 설치하기
 ```bash
-npm i -D jest ts-jest @types/jest @swc/core @swc/jest 
+npm i -D jest ts-jest @types/jest @swc/core @swc/jest eslint-plugin-jest@latest
 ```
 `jest.config.js` 파일 생성하기
 ```Javascript
